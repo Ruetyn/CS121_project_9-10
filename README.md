@@ -1,5 +1,5 @@
 # CS121_project_9-10
-```
+```mermaid
 classDiagram
 class HasMenu {
     + menu(): String
