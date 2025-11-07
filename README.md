@@ -53,6 +53,32 @@ class User {
     + getReport()(abstract)String
 }
 
+class Admin {
+    + Admin()
+    + menu()String
+    + getReport()String
+}
+
+class Bank {
+    - Admin: Admin
+    - customers: ArrayList
+    + Bank()
+    + main()void
+    + loadSampleCustomers()void
+    + loadCustomers()void
+    + saveCustomers()void
+    + fullCustomerReport()void
+    + addUser()void
+    + applyInterest()void
+    + loginAsCustomer()void
+    + menu()void
+    + start()void
+    + startAdmin()void
+}
+
+
+Bank o--> Admin
+Bank o--> Customer
 SavingsAccount --|> CheckingAccount
 Customer --|> User
 CheckingAccount ..|> HasMenu
@@ -247,4 +273,136 @@ Define changePIN method:
 
 Define getReport method:
   return a string with the userName, checking balance, savings balance, and interest rate
+```
+
+## Admin
+Admin()
+```
+Define a class named Admin that extends User
+Implement the Serializable interface
+
+Constructor with no parameters:
+    call setUserName("admin")
+    call setPIN("0000")
+
+Define menu() method:
+    print the following text:
+    Admin Menu
+    0) Exit this menu
+    1) Full customer report
+    2) Add user
+    3) Apply interest to savings accounts
+    Action:
+
+Define start() method:
+    leave empty (admin actions are handled in Bank class)
+
+Define getReport() mehtod:
+    return the string: "Admin user: " + userName
+```
+
+## Bank
+Bank()
+```
+Define a class named Bank that implements Serializable
+
+Create a variable admin as an Admin
+Create variable customers as a CustomerList (extends ArrayList of Customer)
+
+Constructor with no parameters:
+    create a new Admin object and assign it to admin
+    call loadCustomers()
+    if loading fails:
+        call loadSampleCustomers()
+    call start()
+    call saveCustomers()
+
+Define start() method:
+    create a scanner to read input
+    create a boolean keepGoing and set it to true
+    while keepGoing is true:
+        Print the following text:
+        Bank Menu
+        0) Exit system
+        1) Login as admin
+        2) Login as customer
+        Action:
+        read the user choice
+        if choice equals 0:
+            set keepGoing to false
+        elif choice equals 1:
+            call startAdmin()
+        elif choice equals 2:
+            call loginAsCustomer()
+        else:
+            print "Invalid option."
+
+Define startAdmin() method:
+    print "Admin Login"
+    ask for User name
+    read enteredUserName
+    ask for PIN
+    read enteredPIN
+    if admin.login(enteredUserName, enteredPIN) is true:
+        create a boolean variable keepGoing and set it to true
+        while keepGoing is true:
+            print the admin menu using admin.menu()
+            read the user choice
+        if choice equals 0:
+            set keepGoing to false
+        elif choice equals 1:
+            call fullCustomerReport()
+        elif choice equals 2:
+            call addUser()
+        elif choice equals 3:
+            call applyInterest()
+        else:
+            print "Invalid option."
+    else:
+        print "Invalid admin login."
+
+Define fullCustomerReport() method:
+    print "Full Customer Report"
+    for each customer in customers:
+        print customer.getReport()
+
+Define addUser() method:
+    print "Add user"
+    ask for Name
+    read enteredName
+    ask for PIN
+    read enteredPIN
+    create a new Customer(enteredName, enteredPIN)
+    add the new customer to the customers list
+    print "User added successfully"
+
+Define applyInterest method:
+    print "Apply interest"
+    for each customer in customers:
+        call customer.savings.calcInterest()
+
+Define loadSampleCustomers() method:
+    create a new CustomerList
+    create Customer Alice with userName "Alice" and PIN "1111"
+    set Alice's checking balance to 1000
+    set Alice's savings balance to 1000
+    add Alice to customers list
+    create and add Customer Bob with PIN "2222"
+    create and add Customer Cindy with PIN "3333"
+    print "Sample customers loaded"
+
+Define saveCustomers() method:
+    try to create an ObjectOutputStream using file customers.dat
+    write the customers list to the stream
+    close the stream
+    if an error occurs:
+        print "Error saving customers"
+
+Define loadCustomers() method:
+    try to open customers.dat with an ObjectInputStream
+    read an object and cast it to CustomerList
+    assing it to customers
+    print "Customers loaded from file"
+    if any errors occurs:
+        print "No saved data found. Loading sample customers..."
 ```
