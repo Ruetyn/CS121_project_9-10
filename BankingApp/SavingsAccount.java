@@ -1,4 +1,6 @@
-public class SavingsAccount extends CheckingAccount {
+import java.io.Serializable;
+
+public class SavingsAccount extends CheckingAccount implements Serializable {
 	private double interestRate;
 
 	public SavingsAccount() {

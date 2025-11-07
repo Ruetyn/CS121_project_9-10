@@ -1,6 +1,7 @@
 import java.util.*;
+import java.io.Serializable;
 
-public class Customer extends User {
+public class Customer extends User implements Serializable {
 	private CheckingAccount checking;
 	private SavingsAccount savings;
 	
@@ -16,6 +17,14 @@ public class Customer extends User {
 		this.userName = userName;
 		this.PIN = PIN;
 	} // end Customer(String, String)
+	
+	public CheckingAccount getChecking() {
+		return checking;
+	} // end getChecking
+	
+	public SavingsAccount getSavings() {
+		return savings;
+	} // end getSavings
 	
 	@Override
 	public void start() {
